@@ -1,9 +1,10 @@
 import copy
 from math import sqrt
 
-m:int
-n:int
-covek:bool
+m: int
+n: int
+covek: bool
+
 
 def unesiDim():
     while True:
@@ -26,33 +27,38 @@ def unesiDim():
                 print("Pogresne dimenzije. Unesite ponovo.")
         except ValueError:
             print("Pogresan unos. Unesite ponovo.")
+
+
 q = unesiDim()
-m=int(q[0])
-n=int(q[1])
+m = int(q[0])
+n = int(q[1])
+
 
 def izborIgraca():
-    p=input("Unesite da li igru pocinje covek ili racunar: H/C ")
-    if(p=='C' or p=='c'):
+    p = input("Unesite da li igru pocinje covek ili racunar: H/C ")
+    if (p == 'C' or p == 'c'):
         return False
-    elif(p=='H' or p=='h'):
+    elif (p == 'H' or p == 'h'):
         return True
     else:
         print("Pogresan unos")
         return izborIgraca()
 
+
 def izborIgre():
-    p=input("Unesite da li igraju 2 igraca(1) ili covek protiv racunara(0): ")
-    if(p=="0"):
+    p = input("Unesite da li igraju 2 igraca(1) ili covek protiv racunara(0): ")
+    if (p == "0"):
         return False
-    elif(p=="1"):
+    elif (p == "1"):
         return True
     else:
         print("Pogresan unos")
         return izborIgre()
 
-#---------------------
+# ---------------------
 # X igrac je True, a O je False
-#---------------------
+# ---------------------
+
 
 def prikazTabla(tabla):
     slovo = 'A'  # pocetak prikaza slova
@@ -95,10 +101,11 @@ def prikazTabla(tabla):
         print(chr(ord(slovo) + x), end="   ")
     print()
 
+
 def praznaTabla(dim1, dim2):
     val = [[' ' for _ in range(dim2)] for _ in range(dim1)]
 
-    for row in range(1,dim1-1):
+    for row in range(1, dim1-1):
         for col in range(dim2):
             if (row % 2 == 0 and col % 2 == 0) or (row % 2 != 0 and col % 2 != 0):
                 if row % 2 != 0 and col % 2 != 0:
@@ -109,11 +116,6 @@ def praznaTabla(dim1, dim2):
     return val
 
 
-
-
-
-
-
-tabla=praznaTabla(m,n)
+tabla = praznaTabla(m, n)
 prikazTabla(tabla)
-#partija()
+# partija()
