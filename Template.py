@@ -5,6 +5,8 @@ from tkinter import messagebox
 scr = turtle.Screen()
 ttl = turtle.Turtle()
 
+listaPolja = []
+
 
 def draw():
     for i in range(4):
@@ -24,9 +26,15 @@ def drawDots(size: int):
 
             if (j > 0 and j < size-1 and (j+k) % 2 != 0):
                 if (j % 2 == 0):
+                    stack = [1]
+                    listaPolja.append(stack)
                     ttl.dot(5, 'black')
                 else:
+                    stack = [0]
+                    listaPolja.append(stack)
                     ttl.dot(5, 'white')
+            else:
+                listaPolja.append([])
 
 
 def drawBoard(size: int):
@@ -38,6 +46,19 @@ def drawBoard(size: int):
     scr.setup(size * 35 + 20, size * 35 + 20)
 
     ttl.speed(90)
+
+    # Oznake za redove (A, B, C, ...)
+    row_labels = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")[:size]
+    for i, label in enumerate(row_labels):
+        ttl.penup()
+        ttl.goto(-size * 35 / 2 - 20, -size * 35 / 2 + i * 35 + 15)
+        ttl.write(label, align="center", font=("Arial", 12, "normal"))
+
+    # Oznake za kolone (1, 2, 3, ...)
+    for i in range(size):
+        ttl.penup()
+        ttl.goto(-size * 35 / 2 + i * 35 + 15, -size * 35 / 2 - 20)
+        ttl.write(str(i + 1), align="center", font=("Arial", 12, "normal"))
 
     for j in range(size):
         ttl.up()
@@ -61,4 +82,4 @@ def drawBoard(size: int):
 
 
 if __name__ == "__main__":
-    drawBoard(8)
+    drawBoard(12)
