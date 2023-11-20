@@ -29,10 +29,6 @@ def unesiDim():
             print("Pogresan unos. Unesite ponovo.")
 
 
-q = unesiDim()
-m = int(q[0])
-n = int(q[1])
-
 
 def izborIgraca():
     p = input("Unesite da li igru pocinje covek ili racunar: H/C ")
@@ -45,20 +41,23 @@ def izborIgraca():
         return izborIgraca()
 
 
-def izborIgre():
-    p = input("Unesite da li igraju 2 igraca(1) ili covek protiv racunara(0): ")
-    if (p == "0"):
-        return False
-    elif (p == "1"):
-        return True
+def izborPrvogIgraca():
+    p = input("Izaberite ko će igrati prvi (X ili O): ").upper()
+    if p == 'X':
+        return True  # Čovek igra prvi
+    elif p == 'O':
+        return False  # Računar igra prvi
     else:
-        print("Pogresan unos")
-        return izborIgre()
+        print("Pogrešan unos. Pokušajte ponovo.")
+        return izborPrvogIgraca()
 
-# ---------------------
-# X igrac je True, a O je False
-# ---------------------
 
+
+def unosParametaraIgre():
+    dimenzije = unesiDim()
+    ko_igra_prvi = izborIgraca()
+    prvi_igrac = izborPrvogIgraca()
+    return dimenzije[0], dimenzije[1], ko_igra_prvi ,prvi_igrac
 
 def prikazTabla(tabla):
     slovo = 'A'  # pocetak prikaza slova
@@ -116,6 +115,7 @@ def praznaTabla(dim1, dim2):
     return val
 
 
+m, n, ko_igra_prvi,prvi_igrac = unosParametaraIgre()
+
 tabla = praznaTabla(m, n)
 prikazTabla(tabla)
-# partija()
