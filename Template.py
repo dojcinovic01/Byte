@@ -65,22 +65,23 @@ def unosParametaraIgre():
 
 def draw():
     for i in range(4):
-        ttl.forward(55)
+        ttl.forward(45)
         ttl.left(90)
-    ttl.forward(55)
+    ttl.forward(45)
 
 
 def drawInitialDots(size: int):
     for j in range(size):
         for k in range(size):
-            sredina_x = -size * 55 / 2 + (k + 0.5) * 55
-            sredina_y = -size * 55 / 2 + (j + 0.5) * 55
+            sredina_x = -size * 45 / 2 + (k + 0.5) * 45
+            # Invertovanje y koordinate
+            sredina_y = size * 45 / 2 - (j - 0.5) * 45
             ttl.penup()
             ttl.goto(sredina_x, sredina_y)
             ttl.pendown()
 
-            if (j > 0 and j < size-1 and (j+k) % 2 != 0):
-                if (j % 2 == 0):
+            if (j > 0 and j < size-1 and (j+k) % 2 == 0):
+                if (j % 2 != 0):
                     polje = {'row': j, 'column': k,
                              'vlasnik': 'crni', 'stek': [1]}
                     listaPolja.append(polje)
@@ -96,8 +97,7 @@ def drawInitialDots(size: int):
 
 
 def drawBoard(size: int):
-
-    scr.setup(size * 55 + 20, size * 55 + 20)
+    scr.setup(size * 75 + 20, size * 75 + 20)
 
     ttl.speed(90)
 
@@ -105,25 +105,25 @@ def drawBoard(size: int):
     row_labels = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")[:size]
     for i, label in enumerate(row_labels):
         ttl.penup()
-        ttl.goto(-size * 55 / 2 - 20, -size * 55 / 2 + i * 55 + 15)
+        ttl.goto(-size * 45 / 2 - 20, size * 45 / 2 - i * 45 + 10)
         ttl.write(label, align="center", font=("Arial", 12, "normal"))
 
     # Oznake za kolone (1, 2, 3, ...)
     for i in range(size):
         ttl.penup()
-        ttl.goto(-size * 55 / 2 + i * 55 + 25, -size * 55 / 2 - 20)
+        ttl.goto(-size * 45 / 2 + i * 45 + 25, size * 45 / 2 + 60)
         ttl.write(str(i + 1), align="center", font=("Arial", 12, "normal"))
 
     for j in range(size):
         ttl.up()
-        ttl.setpos(-size * 55 / 2, -size * 55 / 2 + j * 55)
+        ttl.setpos(-size * 45 / 2, size * 45 / 2 - j * 45)
         ttl.down()
 
         for k in range(size):
             if (j + k) % 2 == 0:
-                clr = 'white'
-            else:
                 clr = 'brown'
+            else:
+                clr = 'white'
 
             ttl.fillcolor(clr)
             ttl.begin_fill()
@@ -140,11 +140,8 @@ def vratiPolje(row, column):
 
 
 if __name__ == "__main__":
-    m, n, ko_igra_prvi, prvi_igrac = unosParametaraIgre()
-    drawBoard(n)
-    polje = vratiPolje(1, 2)
-    polje['stek'] = [0, 0, 0, 1]
-    print(listaPolja)
+    # m, n, ko_igra_prvi, prvi_igrac = unosParametaraIgre()
+    drawBoard(8)
 
     ttl.hideturtle()
     turtle.done()
