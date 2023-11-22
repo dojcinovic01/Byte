@@ -4,6 +4,7 @@ from tkinter import messagebox
 
 scr = turtle.Screen()
 ttl = turtle.Turtle()
+ttlDots = turtle.Turtle()
 
 listaPolja = []
 m: int
@@ -76,24 +77,69 @@ def drawInitialDots(size: int):
             sredina_x = -size * 45 / 2 + (k + 0.5) * 45
             # Invertovanje y koordinate
             sredina_y = size * 45 / 2 - (j - 0.5) * 45
-            ttl.penup()
-            ttl.goto(sredina_x, sredina_y)
-            ttl.pendown()
+            ttlDots.penup()
+            ttlDots.goto(sredina_x, sredina_y)
+            ttlDots.pendown()
 
             if (j > 0 and j < size-1 and (j+k) % 2 == 0):
                 if (j % 2 != 0):
-                    polje = {'row': j, 'column': k,
+                    polje = {'row': chr(ord('A') + j), 'column': k,
                              'vlasnik': 'crni', 'stek': [1]}
                     listaPolja.append(polje)
-                    ttl.dot(5, 'black')
+                    ttlDots.dot(5, 'black')
                 else:
-                    polje = {'row': j, 'column': k,
+                    polje = {'row': chr(ord('A') + j), 'column': k,
                              'vlasnik': 'beli', 'stek': [0]}
                     listaPolja.append(polje)
-                    ttl.dot(5, 'white')
+                    ttlDots.dot(5, 'orange')
             else:
                 listaPolja.append(
-                    {'row': j, 'column': k, 'vlasnik': '', 'stek': []})
+                    {'row': chr(ord('A') + j), 'column': k, 'vlasnik': '', 'stek': []})
+
+
+def drawField(polje: dict):
+    for ind, dot in enumerate(polje['stek']):
+        j = ord(polje['row'])-65
+        k = polje['column']
+        coefK = 0
+        coefY = 0
+        if (len(polje['stek']) == 1):
+            coefK = 0.5
+            coefY = 0.5
+        else:
+            if (ind == 0 or ind == 3 or ind == 6):
+                coefK = 0.1
+            elif (ind == 1 or ind == 4 or ind == 7):
+                coefK = 0.5
+            else:
+                coefK = 0.9
+
+            if (0 <= ind <= 2):
+                coefY = 0.1
+            elif (3 <= ind <= 5):
+                coefY = 0.5
+            else:
+                coefY = 0.9
+        x = -8 * 45 / 2 + (k + coefK) * 45
+        y = 8 * 45 / 2 - (j - coefY) * 45
+        if dot == 0:
+            ttlDots.penup()
+            ttlDots.goto(x, y)
+            ttlDots.pendown()
+            ttlDots.dot(5, 'orange')
+        elif dot == 1:
+            ttlDots.penup()
+            ttlDots.goto(x, y)
+            ttlDots.pendown()
+            ttlDots.dot(5, 'black')
+        else:
+            continue
+
+
+def drawDots():
+    ttlDots.clear()
+    for polje in listaPolja:
+        drawField(polje)
 
 
 def drawBoard(size: int):
@@ -142,6 +188,8 @@ def vratiPolje(row, column):
 if __name__ == "__main__":
     # m, n, ko_igra_prvi, prvi_igrac = unosParametaraIgre()
     drawBoard(8)
-
+    polje = vratiPolje('A', 1)
+    polje['stek'] = [0, 1, 1, 0, 1, 1, 1]
+    drawDots()
     ttl.hideturtle()
     turtle.done()
